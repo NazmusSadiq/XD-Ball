@@ -15,21 +15,29 @@ Ball::Ball(double x, double y,RenderWindow & window,Texture& tex)
     loser.setBuffer(lbfr);
 }
 
+<<<<<<< HEAD
 void Ball::BoxFunctions(RenderWindow& window,Ball& ball,Texture& tex0,Texture& tex1,Texture& balltex,Texture& fb)
+=======
+void Ball::BoxFunctions(RenderWindow& window,Ball& ball,Texture& tex0,Texture& tex1)
+>>>>>>> 99c76fd94d0349569df49390a80fde30e3ac6c9e
 {
     elapsed += boxclk.restart();
     interval = seconds(10+rand()%6);
     if (!generated && elapsed>=interval)
     {
         generated = true;
+<<<<<<< HEAD
         boxTimer = seconds(0);
         index = rand() % 3;
         if (index == 0)
         {
+=======
+>>>>>>> 99c76fd94d0349569df49390a80fde30e3ac6c9e
         boxPosition.x = rand() % (WindowWidth-50);
         boxPosition.y = WindowHeight / 2;
         BoxObject.setSize(Vector2f(50.0f, 75.0f));
         BoxObject.setPosition(boxPosition);
+<<<<<<< HEAD
             BoxObject.setTexture(&tex0);
             window.draw(BoxObject);
         }
@@ -51,6 +59,14 @@ void Ball::BoxFunctions(RenderWindow& window,Ball& ball,Texture& tex0,Texture& t
             ball.BallObject.setTexture(&fb);
             window.draw(ball.BallObject);
         }
+=======
+        index = rand() % 2;
+        if(index==0)
+            BoxObject.setTexture(&tex0);
+        else if(index==1)
+            BoxObject.setTexture(&tex1);
+        window.draw(BoxObject);
+>>>>>>> 99c76fd94d0349569df49390a80fde30e3ac6c9e
         bxpbfr.loadFromFile("boxpop.wav");
         boxpop.setBuffer(bxpbfr);
         boxpop.play();

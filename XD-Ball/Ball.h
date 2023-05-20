@@ -38,7 +38,11 @@ public:
     int playerscore = 0, opponentscore = 0;
     void reboundPaddle(Paddle paddle);
     void reboundAIPaddle(AI_Paddle aipaddle);
+<<<<<<< HEAD
     void BoxFunctions(RenderWindow & window,Ball& ball,Texture& tex0,Texture& tex1, Texture& balltex,Texture& fb);
+=======
+    void BoxFunctions(RenderWindow & window,Ball& ball,Texture& tex0,Texture& tex1);
+>>>>>>> 99c76fd94d0349569df49390a80fde30e3ac6c9e
     void update();
     double ballVelocityX = 0.0f;
     double ballVelocityY = defaultballvelocity;

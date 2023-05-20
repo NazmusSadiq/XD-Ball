@@ -24,7 +24,11 @@ int main()
     RenderWindow window(VideoMode(WindowWidth, WindowHeight), "This is the menu", Style::Close | Style::Resize);
     Menu gamemenu(window.getSize().x, window.getSize().y);
     RectangleShape background(Vector2f(WindowWidth, WindowHeight)),offbackground(Vector2f(WindowWidth, WindowHeight)), onbackground(Vector2f(WindowWidth, WindowHeight)), optbackground(Vector2f(WindowWidth, WindowHeight));
+<<<<<<< HEAD
     Texture mainbg, offbg, onbg, optbg,balltex,boxtex,pointup,pointdown,fb;
+=======
+    Texture mainbg, offbg, onbg, optbg,balltex,boxtex,pointup,pointdown;
+>>>>>>> 99c76fd94d0349569df49390a80fde30e3ac6c9e
     mainbg.loadFromFile("mainbg.jpg");
     background.setTexture(&mainbg);
     offbg.loadFromFile("offline.jpg");
@@ -35,9 +39,14 @@ int main()
     optbackground.setTexture(&optbg);
     balltex.loadFromFile("ball.png");
     boxtex.loadFromFile("box.jpg");
+<<<<<<< HEAD
     pointup.loadFromFile("pointup.png");
     pointdown.loadFromFile("pointdown.png");
     fb.loadFromFile("fireball.png");
+=======
+    pointup.loadFromFile("pointup.jpg");
+    pointdown.loadFromFile("pointdown.jpg");
+>>>>>>> 99c76fd94d0349569df49390a80fde30e3ac6c9e
     Sound menusound;
     Music bgsound;
     SoundBuffer buffer;
@@ -100,7 +109,11 @@ int main()
                                     }
                                 }
                                 PlayOffline.draw(offbackground);
+<<<<<<< HEAD
                                 Offline_Game(PlayOffline, event, paddle,aipaddle,ball,offbackground,pointup,pointdown,balltex,fb);                                  
+=======
+                                Offline_Game(PlayOffline, event, paddle,aipaddle,ball,offbackground,pointup,pointdown);                                  
+>>>>>>> 99c76fd94d0349569df49390a80fde30e3ac6c9e
                                 PlayOffline.display();
                             }
                         }
@@ -122,7 +135,11 @@ int main()
                                     }
                                 }
                                 Play1V1.draw(offbackground);
+<<<<<<< HEAD
                                 OneVOne(Play1V1, event, paddle1, paddle2, ball, offbackground,pointup,pointdown,balltex,fb);
+=======
+                                OneVOne(Play1V1, event, paddle1, paddle2, ball, offbackground,pointup,pointdown);
+>>>>>>> 99c76fd94d0349569df49390a80fde30e3ac6c9e
                                 Play1V1.display();
                             }
                         }

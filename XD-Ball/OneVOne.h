@@ -19,6 +19,10 @@ using namespace sf;
 class OneVOne
 {
 public:
+<<<<<<< HEAD
 	OneVOne(RenderWindow& Play1V1, Event& event, Paddle& paddle1, Paddle& paddle2, Ball& ball, RectangleShape& bg,Texture& pup, Texture& pdn, Texture& balltex,Texture& fb);
+=======
+	OneVOne(RenderWindow& Play1V1, Event& event, Paddle& paddle1, Paddle& paddle2, Ball& ball, RectangleShape& bg,Texture& pup, Texture& pdn);
+>>>>>>> 99c76fd94d0349569df49390a80fde30e3ac6c9e
 };
 

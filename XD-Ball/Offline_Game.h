@@ -21,5 +21,9 @@ class Offline_Game
 {
     int aipaddlecounter;
 public:
+<<<<<<< HEAD
 	Offline_Game(RenderWindow& PlayOffline, Event& event, Paddle& paddle, AI_Paddle& aipaddle, Ball& ball,RectangleShape & bg,Texture& pup,Texture& pdn,Texture& balltex,Texture& fb);
+=======
+	Offline_Game(RenderWindow& PlayOffline, Event& event, Paddle& paddle, AI_Paddle& aipaddle, Ball& ball,RectangleShape & bg,Texture& pup,Texture& pdn);
+>>>>>>> 99c76fd94d0349569df49390a80fde30e3ac6c9e
 };

@@ -1,6 +1,10 @@
 #include "OneVOne.h"
 
+<<<<<<< HEAD
 OneVOne::OneVOne(RenderWindow& Play1V1, Event& event, Paddle& paddle1, Paddle& paddle2, Ball& ball, RectangleShape& bg, Texture& pup, Texture& pdn,Texture& balltex,Texture& fb)
+=======
+OneVOne::OneVOne(RenderWindow& Play1V1, Event& event, Paddle& paddle1, Paddle& paddle2, Ball& ball, RectangleShape& bg, Texture& pup, Texture& pdn)
+>>>>>>> 99c76fd94d0349569df49390a80fde30e3ac6c9e
 {
     if (Keyboard::isKeyPressed(Keyboard::Left))
     {
@@ -54,7 +58,11 @@ OneVOne::OneVOne(RenderWindow& Play1V1, Event& event, Paddle& paddle1, Paddle& p
     ball.update();
     paddle1.update();
     paddle2.update();
+<<<<<<< HEAD
     ball.BoxFunctions(Play1V1, ball,pup,pdn,balltex,fb);
+=======
+    ball.BoxFunctions(Play1V1, ball,pup,pdn);
+>>>>>>> 99c76fd94d0349569df49390a80fde30e3ac6c9e
     Play1V1.clear();
 
     if (ball.playerscore == PointLimit)
