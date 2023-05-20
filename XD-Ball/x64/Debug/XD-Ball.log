@@ -1,0 +1,12 @@
+﻿  main.cpp
+F:\SFML Learning\XD-Ball\XD-Ball\main.cpp(25,55): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+F:\SFML Learning\XD-Ball\XD-Ball\main.cpp(25,35): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+  XD-Ball.vcxproj -> F:\SFML Learning\XD-Ball\x64\Debug\XD-Ball.exe
