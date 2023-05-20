@@ -1,13 +1,13 @@
 #include "Ball.h"
 
 
-Ball::Ball(double x, double y,RenderWindow & window,Texture& tex1)
+Ball::Ball(double x, double y,RenderWindow & window,Texture& tex)
 {
     ballPosition.x = x;
     ballPosition.y = y;
     BallObject.setRadius(7.0f);
     BallObject.setPosition(ballPosition);
-    BallObject.setTexture(&tex1);
+    BallObject.setTexture(&tex);
     window.draw(BallObject);
     lbfr.loadFromFile("losingsound.wav");
     wbfr.loadFromFile("winningsound.wav");
@@ -15,24 +15,66 @@ Ball::Ball(double x, double y,RenderWindow & window,Texture& tex1)
     loser.setBuffer(lbfr);
 }
 
-void Ball::BoxUPFunctions(RenderWindow& window,Ball& ball,Texture& tex)
+void Ball::BoxFunctions(RenderWindow& window,Ball& ball,Texture& tex0,Texture& tex1,Texture& balltex,Texture& fb)
 {
     elapsed += boxclk.restart();
-    interval = seconds(3+rand()%5);
+    interval = seconds(10+rand()%6);
     if (!generated && elapsed>=interval)
     {
         generated = true;
-        boxPosition.x = WindowWidth / 2;//rand() % (WindowWidth-50);
+        boxTimer = seconds(0);
+        index = rand() % 3;
+        if (index == 0)
+        {
+        boxPosition.x = rand() % (WindowWidth-50);
         boxPosition.y = WindowHeight / 2;
-        BoxObject.setSize(Vector2f(50.0f, 50.0f));
+        BoxObject.setSize(Vector2f(50.0f, 75.0f));
         BoxObject.setPosition(boxPosition);
-        tex.loadFromFile("pointup.jpg");
-        BoxObject.setTexture(&tex);
-        window.draw(BoxObject);
+            BoxObject.setTexture(&tex0);
+            window.draw(BoxObject);
+        }
+
+        else if (index == 1)
+        {
+            boxPosition.x = rand() % (WindowWidth - 50);
+            boxPosition.y = WindowHeight / 2;
+            BoxObject.setSize(Vector2f(50.0f, 75.0f));
+            BoxObject.setPosition(boxPosition);
+            BoxObject.setTexture(&tex1);
+            window.draw(BoxObject);
+        }
+        else if (index == 2)
+        {
+            BoxObject.setSize(Vector2f(0, 0));
+            ball.ballVelocityX *= 1.5;
+            ball.ballVelocityY *= 1.5;
+            ball.BallObject.setTexture(&fb);
+            window.draw(ball.BallObject);
+        }
         bxpbfr.loadFromFile("boxpop.wav");
         boxpop.setBuffer(bxpbfr);
         boxpop.play();
         BoxRect = BoxObject.getGlobalBounds();
+    }
+    if (index == 2 && (generated && elapsed >= interval + seconds(5) || ball.ballPosition.y >= WindowHeight - 5|| ball.ballPosition.y<=2))
+    {
+        index = -1;
+        ball.BallObject.setTexture(&balltex);
+        ball.ballVelocityX /= 2;
+        if (ballVelocityY > 0)
+            ball.ballVelocityY = defaultballvelocity;
+        else
+            ball.ballVelocityY = -defaultballvelocity;
+        window.draw(ball.BallObject);
+        generated = false;
+        elapsed = milliseconds(0);
+        BoxObject.setPosition(-100.0f, -100.0f);
+    }
+    else if (generated && elapsed>=interval+seconds(7))
+    {
+        generated = false;
+        BoxObject.setPosition(-100.0f, -100.0f);
+        elapsed = milliseconds(0);
     }
     if (generated && ball.getBallFloatRect().intersects(BoxRect))
     {
@@ -42,50 +84,19 @@ void Ball::BoxUPFunctions(RenderWindow& window,Ball& ball,Texture& tex)
         boxgone.setBuffer(bxgbfr);
         boxgone.play();
         BoxObject.setPosition(-100.0f, -100.0f);
-        if (ball.ballVelocityY > 0)
+        if (index == 0) 
         {
-            opponentscore++;
+            if (ball.ballVelocityY > 0)
+                opponentscore++;
+            else
+                playerscore++;
         }
-        else
+        else if (index == 1)
         {
-            playerscore++;
-        }
-    }
-}
-void Ball::BoxDOWNFunctions(RenderWindow& window, Ball& ball, Texture& tex)
-{
-    elapsed += boxclk.restart();
-    interval = seconds(3 + rand() % 5);
-    if (!generated && elapsed >= interval)
-    {
-        generated = true;
-        boxPosition.x = WindowWidth / 2;//rand() % (WindowWidth - 50);
-        boxPosition.y = WindowHeight / 2;
-        BoxObject.setSize(Vector2f(50.0f, 50.0f));
-        BoxObject.setPosition(boxPosition);
-        tex.loadFromFile("pointdown.jpg");
-        BoxObject.setTexture(&tex);
-        window.draw(BoxObject);
-        bxpbfr.loadFromFile("boxpop.wav");
-        boxpop.setBuffer(bxpbfr);
-        boxpop.play();
-        BoxRect = BoxObject.getGlobalBounds();
-    }
-    if (generated && ball.getBallFloatRect().intersects(BoxRect))
-    {
-        elapsed = milliseconds(0);
-        generated = false;
-        bxgbfr.loadFromFile("boxgone.wav");
-        boxgone.setBuffer(bxgbfr);
-        boxgone.play();
-        BoxObject.setPosition(-100.0f, -100.0f);
-        if (ball.ballVelocityY > 0)
-        {
-            opponentscore--;
-        }
-        else
-        {
-            playerscore--;
+            if (ball.ballVelocityY > 0)
+                opponentscore--;
+            else
+                playerscore--;
         }
     }
 }
@@ -243,20 +254,30 @@ void Ball::passBottom(Paddle& paddle1, Paddle& paddle2)
 void Ball::reboundPaddle(Paddle paddle)
 {
     ballPosition.y -= (ballVelocityY * 30);
-    if (paddle.paddleposition.y > 500)
-        ballVelocityY = -defaultballvelocity;
-    else
-        ballVelocityY = defaultballvelocity;
     float contact = paddle.paddleposition.x + 75;
     ballVelocityX = (ballPosition.x-contact) * 0.015;
+    if (paddle.paddleposition.y > 500)
+        ballVelocityY = -(defaultballvelocity-abs(ballVelocityX/4));
+    else
+        ballVelocityY = defaultballvelocity-abs(ballVelocityX/4);
+    if (index == 2)
+    {
+        ballVelocityX *= 2;
+        ballVelocityY *= 2;
+    }
 }
 
 void Ball::reboundAIPaddle(AI_Paddle aipaddle)
 {
     ballPosition.y -= (ballVelocityY * 30);
-    ballVelocityY = defaultballvelocity;
     float contact = aipaddle.AIPaddlePosition.x + 75;
     ballVelocityX = (ballPosition.x-contact) * 0.015;
+    ballVelocityY = defaultballvelocity-abs(ballVelocityX/4);
+    if (index == 2)
+    {
+        ballVelocityX *= 2;
+        ballVelocityY *= 2;
+    }
 }
 
 

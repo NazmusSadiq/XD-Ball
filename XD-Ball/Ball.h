@@ -17,15 +17,16 @@ class Ball
 {
 private:
     Clock clk,boxclk;
-    Time interval,elapsed=milliseconds(0);
+    Time interval,elapsed=milliseconds(0),boxTimer=milliseconds(0);
     bool generated = false;
     CircleShape BallObject;
     Vector2f ballPosition,boxPosition;
     RectangleShape BoxObject;
+    int index=-1;
 public:
     CircleShape getBallObject();
     RectangleShape getBoxObject();
-    Ball(double x, double y, RenderWindow & window,Texture& tex1);
+    Ball(double x, double y, RenderWindow & window,Texture& tex);
     FloatRect getBallFloatRect();
     FloatRect BoxRect;
     void reboundSides();
@@ -37,8 +38,7 @@ public:
     int playerscore = 0, opponentscore = 0;
     void reboundPaddle(Paddle paddle);
     void reboundAIPaddle(AI_Paddle aipaddle);
-    void BoxUPFunctions(RenderWindow & window,Ball& ball,Texture& tex);
-    void BoxDOWNFunctions(RenderWindow& window, Ball& ball, Texture& tex);
+    void BoxFunctions(RenderWindow & window,Ball& ball,Texture& tex0,Texture& tex1, Texture& balltex,Texture& fb);
     void update();
     double ballVelocityX = 0.0f;
     double ballVelocityY = defaultballvelocity;

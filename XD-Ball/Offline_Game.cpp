@@ -1,6 +1,6 @@
 #include "Offline_Game.h"
 
-Offline_Game::Offline_Game(RenderWindow& PlayOffline, Event& event, Paddle& paddle, AI_Paddle& aipaddle, Ball& ball,RectangleShape& bg,Texture& boxtex)
+Offline_Game::Offline_Game(RenderWindow& PlayOffline, Event& event, Paddle& paddle, AI_Paddle& aipaddle, Ball& ball,RectangleShape& bg,Texture& pup, Texture& pdn,Texture& balltex,Texture& fb)
 {
     aipaddlecounter = 0;
 
@@ -62,14 +62,7 @@ Offline_Game::Offline_Game(RenderWindow& PlayOffline, Event& event, Paddle& padd
     ball.update();
     paddle.update();
     aipaddle.update();
-    if (!generated)
-    {
-        index = rand() % 2;
-        if (index == 0)
-            ball.BoxUPFunctions(PlayOffline, ball, boxtex);
-        else if (index == 1)
-            ball.BoxDOWNFunctions(PlayOffline, ball, boxtex);
-    }
+    ball.BoxFunctions(PlayOffline, ball,pup,pdn,balltex,fb);
     PlayOffline.clear();
 
     if (ball.playerscore == PointLimit)

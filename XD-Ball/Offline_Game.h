@@ -19,8 +19,7 @@ using namespace sf;
 
 class Offline_Game
 {
-    int aipaddlecounter,index;
+    int aipaddlecounter;
 public:
-	bool generated = false;
-	Offline_Game(RenderWindow& PlayOffline, Event& event, Paddle& paddle, AI_Paddle& aipaddle, Ball& ball,RectangleShape & bg,Texture& boxtex);
+	Offline_Game(RenderWindow& PlayOffline, Event& event, Paddle& paddle, AI_Paddle& aipaddle, Ball& ball,RectangleShape & bg,Texture& pup,Texture& pdn,Texture& balltex,Texture& fb);
 };
