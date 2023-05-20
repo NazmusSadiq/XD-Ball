@@ -1,12 +1,40 @@
-﻿  main.cpp
-F:\SFML Learning\XD-Ball\XD-Ball\main.cpp(25,55): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+﻿  Ball.cpp
+F:\SFML Learning\XD-Ball\XD-Ball\Ball.cpp(6,22): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
           with
           [
-              T=unsigned int
+              T=float
           ]
-F:\SFML Learning\XD-Ball\XD-Ball\main.cpp(25,35): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+F:\SFML Learning\XD-Ball\XD-Ball\Ball.cpp(7,22): warning C4244: '=': conversion from 'double' to 'T', possible loss of data
           with
           [
-              T=unsigned int
+              T=float
           ]
+F:\SFML Learning\XD-Ball\XD-Ball\Ball.cpp(21,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+F:\SFML Learning\XD-Ball\XD-Ball\Ball.cpp(25,32): warning C4244: '=': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+F:\SFML Learning\XD-Ball\XD-Ball\Ball.cpp(217,38): warning C4244: '-=': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+F:\SFML Learning\XD-Ball\XD-Ball\Ball.cpp(228,38): warning C4244: '-=': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+F:\SFML Learning\XD-Ball\XD-Ball\Ball.cpp(238,23): warning C4244: '+=': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+F:\SFML Learning\XD-Ball\XD-Ball\Ball.cpp(239,23): warning C4244: '+=': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  OneVOne.cpp
+  Generating Code...
   XD-Ball.vcxproj -> F:\SFML Learning\XD-Ball\x64\Debug\XD-Ball.exe

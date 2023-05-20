@@ -1,6 +1,6 @@
 #include "OneVOne.h"
 
-OneVOne::OneVOne(RenderWindow & Play1V1, Event & event, Paddle & paddle1, Paddle & paddle2, Ball & ball, RectangleShape & bg,Texture& boxtex)
+OneVOne::OneVOne(RenderWindow& Play1V1, Event& event, Paddle& paddle1, Paddle& paddle2, Ball& ball, RectangleShape& bg, Texture& pup, Texture& pdn)
 {
     if (Keyboard::isKeyPressed(Keyboard::Left))
     {
@@ -54,14 +54,7 @@ OneVOne::OneVOne(RenderWindow & Play1V1, Event & event, Paddle & paddle1, Paddle
     ball.update();
     paddle1.update();
     paddle2.update();
-    if (!generated)
-    {
-        index = rand() % 2;
-        if (index == 0)
-            ball.BoxUPFunctions(Play1V1, ball, boxtex);
-        else if (index == 1)
-            ball.BoxDOWNFunctions(Play1V1, ball, boxtex);
-    }
+    ball.BoxFunctions(Play1V1, ball,pup,pdn);
     Play1V1.clear();
 
     if (ball.playerscore == PointLimit)

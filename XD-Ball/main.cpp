@@ -24,7 +24,7 @@ int main()
     RenderWindow window(VideoMode(WindowWidth, WindowHeight), "This is the menu", Style::Close | Style::Resize);
     Menu gamemenu(window.getSize().x, window.getSize().y);
     RectangleShape background(Vector2f(WindowWidth, WindowHeight)),offbackground(Vector2f(WindowWidth, WindowHeight)), onbackground(Vector2f(WindowWidth, WindowHeight)), optbackground(Vector2f(WindowWidth, WindowHeight));
-    Texture mainbg, offbg, onbg, optbg,balltex,boxtex;
+    Texture mainbg, offbg, onbg, optbg,balltex,boxtex,pointup,pointdown;
     mainbg.loadFromFile("mainbg.jpg");
     background.setTexture(&mainbg);
     offbg.loadFromFile("offline.jpg");
@@ -35,6 +35,8 @@ int main()
     optbackground.setTexture(&optbg);
     balltex.loadFromFile("ball.png");
     boxtex.loadFromFile("box.jpg");
+    pointup.loadFromFile("pointup.jpg");
+    pointdown.loadFromFile("pointdown.jpg");
     Sound menusound;
     Music bgsound;
     SoundBuffer buffer;
@@ -97,7 +99,7 @@ int main()
                                     }
                                 }
                                 PlayOffline.draw(offbackground);
-                                Offline_Game(PlayOffline, event, paddle,aipaddle,ball,offbackground,boxtex);                                  
+                                Offline_Game(PlayOffline, event, paddle,aipaddle,ball,offbackground,pointup,pointdown);                                  
                                 PlayOffline.display();
                             }
                         }
@@ -119,7 +121,7 @@ int main()
                                     }
                                 }
                                 Play1V1.draw(offbackground);
-                                OneVOne(Play1V1, event, paddle1, paddle2, ball, offbackground,boxtex);
+                                OneVOne(Play1V1, event, paddle1, paddle2, ball, offbackground,pointup,pointdown);
                                 Play1V1.display();
                             }
                         }

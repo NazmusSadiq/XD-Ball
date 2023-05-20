@@ -1,13 +1,13 @@
 #include "Ball.h"
 
 
-Ball::Ball(double x, double y,RenderWindow & window,Texture& tex1)
+Ball::Ball(double x, double y,RenderWindow & window,Texture& tex)
 {
     ballPosition.x = x;
     ballPosition.y = y;
     BallObject.setRadius(7.0f);
     BallObject.setPosition(ballPosition);
-    BallObject.setTexture(&tex1);
+    BallObject.setTexture(&tex);
     window.draw(BallObject);
     lbfr.loadFromFile("losingsound.wav");
     wbfr.loadFromFile("winningsound.wav");
@@ -15,19 +15,22 @@ Ball::Ball(double x, double y,RenderWindow & window,Texture& tex1)
     loser.setBuffer(lbfr);
 }
 
-void Ball::BoxUPFunctions(RenderWindow& window,Ball& ball,Texture& tex)
+void Ball::BoxFunctions(RenderWindow& window,Ball& ball,Texture& tex0,Texture& tex1)
 {
     elapsed += boxclk.restart();
     interval = seconds(3+rand()%5);
     if (!generated && elapsed>=interval)
     {
         generated = true;
-        boxPosition.x = WindowWidth / 2;//rand() % (WindowWidth-50);
+        boxPosition.x = rand() % (WindowWidth-50);
         boxPosition.y = WindowHeight / 2;
         BoxObject.setSize(Vector2f(50.0f, 50.0f));
         BoxObject.setPosition(boxPosition);
-        tex.loadFromFile("pointup.jpg");
-        BoxObject.setTexture(&tex);
+        index = rand() % 2;
+        if(index==0)
+            BoxObject.setTexture(&tex0);
+        else if(index==1)
+            BoxObject.setTexture(&tex1);
         window.draw(BoxObject);
         bxpbfr.loadFromFile("boxpop.wav");
         boxpop.setBuffer(bxpbfr);
@@ -42,50 +45,19 @@ void Ball::BoxUPFunctions(RenderWindow& window,Ball& ball,Texture& tex)
         boxgone.setBuffer(bxgbfr);
         boxgone.play();
         BoxObject.setPosition(-100.0f, -100.0f);
-        if (ball.ballVelocityY > 0)
+        if (index == 0) 
         {
-            opponentscore++;
+            if (ball.ballVelocityY > 0)
+                opponentscore++;
+            else
+                playerscore++;
         }
-        else
+        else if (index == 1)
         {
-            playerscore++;
-        }
-    }
-}
-void Ball::BoxDOWNFunctions(RenderWindow& window, Ball& ball, Texture& tex)
-{
-    elapsed += boxclk.restart();
-    interval = seconds(3 + rand() % 5);
-    if (!generated && elapsed >= interval)
-    {
-        generated = true;
-        boxPosition.x = WindowWidth / 2;//rand() % (WindowWidth - 50);
-        boxPosition.y = WindowHeight / 2;
-        BoxObject.setSize(Vector2f(50.0f, 50.0f));
-        BoxObject.setPosition(boxPosition);
-        tex.loadFromFile("pointdown.jpg");
-        BoxObject.setTexture(&tex);
-        window.draw(BoxObject);
-        bxpbfr.loadFromFile("boxpop.wav");
-        boxpop.setBuffer(bxpbfr);
-        boxpop.play();
-        BoxRect = BoxObject.getGlobalBounds();
-    }
-    if (generated && ball.getBallFloatRect().intersects(BoxRect))
-    {
-        elapsed = milliseconds(0);
-        generated = false;
-        bxgbfr.loadFromFile("boxgone.wav");
-        boxgone.setBuffer(bxgbfr);
-        boxgone.play();
-        BoxObject.setPosition(-100.0f, -100.0f);
-        if (ball.ballVelocityY > 0)
-        {
-            opponentscore--;
-        }
-        else
-        {
-            playerscore--;
+            if (ball.ballVelocityY > 0)
+                opponentscore--;
+            else
+                playerscore--;
         }
     }
 }

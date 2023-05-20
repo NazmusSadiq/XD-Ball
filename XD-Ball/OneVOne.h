@@ -18,9 +18,7 @@
 using namespace sf;
 class OneVOne
 {
-	int index;
 public:
-	bool generated = false;
-	OneVOne(RenderWindow& Play1V1, Event& event, Paddle& paddle1, Paddle& paddle2, Ball& ball, RectangleShape& bg,Texture& boxtex);
+	OneVOne(RenderWindow& Play1V1, Event& event, Paddle& paddle1, Paddle& paddle2, Ball& ball, RectangleShape& bg,Texture& pup, Texture& pdn);
 };
 
