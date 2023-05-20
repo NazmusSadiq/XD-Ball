@@ -1,4 +1,6 @@
-﻿  main.cpp
+﻿  Offline_Game.cpp
+  OneVOne.cpp
+  main.cpp
 F:\SFML Learning\XD-Ball\XD-Ball\main.cpp(25,55): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
@@ -9,4 +11,5 @@ F:\SFML Learning\XD-Ball\XD-Ball\main.cpp(25,35): warning C4244: 'argument': con
           [
               T=unsigned int
           ]
+  Generating Code...
   XD-Ball.vcxproj -> F:\SFML Learning\XD-Ball\x64\Debug\XD-Ball.exe

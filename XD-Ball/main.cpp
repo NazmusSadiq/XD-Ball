@@ -24,7 +24,7 @@ int main()
     RenderWindow window(VideoMode(WindowWidth, WindowHeight), "This is the menu", Style::Close | Style::Resize);
     Menu gamemenu(window.getSize().x, window.getSize().y);
     RectangleShape background(Vector2f(WindowWidth, WindowHeight)),offbackground(Vector2f(WindowWidth, WindowHeight)), onbackground(Vector2f(WindowWidth, WindowHeight)), optbackground(Vector2f(WindowWidth, WindowHeight));
-    Texture mainbg, offbg, onbg, optbg,balltex,boxtex;
+    Texture mainbg, offbg, onbg, optbg,balltex,boxtex,pointup,pointdown,fb;
     mainbg.loadFromFile("mainbg.jpg");
     background.setTexture(&mainbg);
     offbg.loadFromFile("offline.jpg");
@@ -35,14 +35,21 @@ int main()
     optbackground.setTexture(&optbg);
     balltex.loadFromFile("ball.png");
     boxtex.loadFromFile("box.jpg");
+    pointup.loadFromFile("pointup.png");
+    pointdown.loadFromFile("pointdown.png");
+    fb.loadFromFile("fireball.png");
     Sound menusound;
     Music bgsound;
-    SoundBuffer buffer;
+    SoundBuffer buffer,wbfr,lbfr,bxpbfr,bxgbfr;
+    bool playing = false, muted = false;
     buffer.loadFromFile("menutoggle.wav");
-    menusound.setBuffer(buffer);
     bgsound.openFromFile("menubg.wav");
+    wbfr.loadFromFile("winningsound.wav");
+    lbfr.loadFromFile("losingsound.wav");
+    bxpbfr.loadFromFile("boxpop.wav");
+    bxgbfr.loadFromFile("boxgone.wav");
+    menusound.setBuffer(buffer);
     bgsound.setLoop(true);
-    bool playing=false;
     while (window.isOpen())
     {
         Event event;
@@ -50,7 +57,8 @@ int main()
         {
             if (!playing)
             {
-                bgsound.play();
+                if(!muted)  
+                    bgsound.play();
                 playing = true;
             }
 
@@ -63,18 +71,35 @@ int main()
                     if (event.key.code == Keyboard::Up)
                     {
                         gamemenu.MoveUp();
-                        menusound.play();
+                        if(!muted)
+                            menusound.play();
                     }
-
+                    if (event.key.code == Keyboard::M)
+                    {                       
+                        if (bgsound.getStatus() == Sound::Playing)
+                        {
+                            bgsound.pause();
+                        }
+                        else
+                        {
+                            bgsound.play();
+                        }
+                        if (!muted)
+                            muted = true;
+                        else
+                            muted = false;
+                    }
                     if (event.key.code == Keyboard::Down)
                     {
                         gamemenu.MoveDown();
-                        menusound.play();
+                        if (!muted)
+                            menusound.play();
                     }
 
                     if (event.key.code == Keyboard::Return || event.mouseButton.button == Mouse::Left)
                     {
-                        menusound.play();
+                        if (!muted)
+                            menusound.play();
                         bgsound.stop();
                         RenderWindow Options(VideoMode(WindowWidth, WindowHeight), "Options", Style::Close | Style::Resize);
 
@@ -83,7 +108,7 @@ int main()
                         {
                             RenderWindow PlayOffline(VideoMode(WindowWidth, WindowHeight), "Play Offline", Style::Close | Style::Resize);
                             Paddle paddle(WindowWidth / 2-75, WindowHeight - 20);
-                            Ball ball(WindowWidth / 2 , WindowHeight / 2,PlayOffline,balltex);
+                            Ball ball(WindowWidth / 2 , WindowHeight / 2,PlayOffline,balltex,wbfr,lbfr);
                             AI_Paddle aipaddle(WindowWidth / 2-75, 10);
                             while (PlayOffline.isOpen())
                             {
@@ -93,11 +118,12 @@ int main()
                                     if (event.type == Event::Closed || ((event.type == event.KeyPressed) && (event.key.code == Keyboard::Escape)))
                                     {
                                         PlayOffline.close();
-                                        bgsound.play();
+                                        if (!muted)
+                                            bgsound.play();
                                     }
                                 }
                                 PlayOffline.draw(offbackground);
-                                Offline_Game(PlayOffline, event, paddle,aipaddle,ball,offbackground,boxtex);                                  
+                                Offline_Game(PlayOffline, event, paddle,aipaddle,ball,muted, bxpbfr, bxgbfr,offbackground,pointup,pointdown,balltex,fb);
                                 PlayOffline.display();
                             }
                         }
@@ -105,7 +131,7 @@ int main()
                         {
                             RenderWindow Play1V1(VideoMode(WindowWidth, WindowHeight), "Play 1V1", Style::Close | Style::Resize);
                             Paddle paddle1(WindowWidth / 2-75, WindowHeight - 20);
-                            Ball ball(WindowWidth / 2,  WindowHeight / 2, Play1V1,balltex);
+                            Ball ball(WindowWidth / 2,  WindowHeight / 2, Play1V1,balltex, wbfr, lbfr);
                             Paddle paddle2(WindowWidth / 2-75, 10);
                             while (Play1V1.isOpen())
                             {
@@ -115,11 +141,12 @@ int main()
                                     if (event.type == Event::Closed || ((event.type == event.KeyPressed) && (event.key.code == Keyboard::Escape)))
                                     {
                                         Play1V1.close();
-                                        playing = 0;
+                                        if (!muted)
+                                            bgsound.play();
                                     }
                                 }
                                 Play1V1.draw(offbackground);
-                                OneVOne(Play1V1, event, paddle1, paddle2, ball, offbackground,boxtex);
+                                OneVOne(Play1V1, event, paddle1, paddle2, ball,muted, bxpbfr, bxgbfr,offbackground,pointup,pointdown,balltex,fb);
                                 Play1V1.display();
                             }
                         }
@@ -127,7 +154,7 @@ int main()
                         {
                             RenderWindow PlayOnline(VideoMode(WindowWidth, WindowHeight), "Play Online", Style::Close | Style::Resize);
                             Paddle paddle(WindowWidth / 2-75, WindowHeight - 20);
-                            Ball ball(WindowWidth / 2 , WindowHeight / 2, PlayOnline,balltex);
+                            Ball ball(WindowWidth / 2, WindowHeight / 2, PlayOnline, balltex, wbfr, lbfr);
                             AI_Paddle aipaddle(WindowWidth / 2-75, 10);
                             while (PlayOnline.isOpen())
                             {
@@ -137,7 +164,8 @@ int main()
                                     if (event.type == Event::Closed || ((event.type == event.KeyPressed) && (event.key.code == Keyboard::Escape)))
                                     {
                                         PlayOnline.close();
-                                        playing = 0;
+                                        if (!muted)
+                                            bgsound.play();
                                     }
                                 }
                                 PlayOnline.draw(onbackground);

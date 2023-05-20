@@ -1,6 +1,6 @@
 #include "Offline_Game.h"
 
-Offline_Game::Offline_Game(RenderWindow& PlayOffline, Event& event, Paddle& paddle, AI_Paddle& aipaddle, Ball& ball,RectangleShape& bg,Texture& boxtex)
+Offline_Game::Offline_Game(RenderWindow& PlayOffline, Event& event, Paddle& paddle, AI_Paddle& aipaddle, Ball& ball,bool& muted,SoundBuffer& bxpbfr,SoundBuffer& bxgbfr,RectangleShape& bg,Texture& pup, Texture& pdn,Texture& balltex,Texture& fb)
 {
     aipaddlecounter = 0;
 
@@ -12,9 +12,17 @@ Offline_Game::Offline_Game(RenderWindow& PlayOffline, Event& event, Paddle& padd
     {
         paddle.movePaddleRight();
     }
+    if (event.key.code == Keyboard::M)
+    {
+        if (!muted)
+            muted = true;
+        else
+            muted = false;
+
+    }
     ball.reboundSides();
-    ball.passTopAI(paddle, aipaddle);
-    ball.passBottomAI(paddle, aipaddle);
+    ball.passTopAI(paddle, aipaddle,muted);
+    ball.passBottomAI(paddle, aipaddle,muted);
     if (ball.getBallFloatRect().intersects(paddle.getPaddleFloatRect()))
     {
         ball.reboundPaddle(paddle);
@@ -62,14 +70,7 @@ Offline_Game::Offline_Game(RenderWindow& PlayOffline, Event& event, Paddle& padd
     ball.update();
     paddle.update();
     aipaddle.update();
-    if (!generated)
-    {
-        index = rand() % 2;
-        if (index == 0)
-            ball.BoxUPFunctions(PlayOffline, ball, boxtex);
-        else if (index == 1)
-            ball.BoxDOWNFunctions(PlayOffline, ball, boxtex);
-    }
+    ball.BoxFunctions(PlayOffline, ball,muted,bxpbfr,bxgbfr,pup,pdn,balltex,fb);
     PlayOffline.clear();
 
     if (ball.playerscore == PointLimit)
